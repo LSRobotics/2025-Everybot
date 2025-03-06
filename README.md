@@ -6,7 +6,7 @@
 - Joystick X Axis: Drive Backward
 - LBumper: Slow Mode
 
-#### Operator
+### Operator
 - RBumper: Algie In/Algie Out
 - LBumper: Arm Up
 - LTrigger: Arm Down

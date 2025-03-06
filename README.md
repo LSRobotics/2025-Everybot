@@ -2,6 +2,8 @@
 
 ## CONTROLS
 ### Driver
+- Joystick Y Axis: Drive Forward
+- Joystick X Axis: Drive Backward
 - LBumper: Slow Mode
 
 #### Operator

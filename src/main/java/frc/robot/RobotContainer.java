@@ -24,6 +24,7 @@ import frc.robot.subsystems.RollerSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -37,8 +38,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+  private final CommandJoystick m_driverController =
+      new CommandJoystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
   // You can remove this if you wish to have a single driver, note that you
   // may have to change the binding for left bumper.
   private final CommandXboxController m_operatorController = 
@@ -86,10 +87,10 @@ public class RobotContainer {
      * value). Similarly for the X axis where we need to flip the value so the
      * joystick matches the WPILib convention of counter-clockwise positive
      */
-    m_drive.setDefaultCommand(new DriveCommand(m_drive,
-        () -> -m_driverController.getLeftY(),
-        () -> -m_driverController.getRightX(),
-        () -> true));
+    public void teleopPeriodic() {
+      // Arcade drive with a given forward and turn rate
+      myDrive.arcadeDrive(-driveStick.getY(), -driveStick.getX());
+  }
 
     /**
      * Holding the left bumper (or whatever button you assign) will multiply the speed

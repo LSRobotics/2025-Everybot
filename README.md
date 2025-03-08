@@ -6,6 +6,12 @@
 - Joystick X Axis: Drive Backward
 - LBumper: Slow Mode
 
+- ##Flight Stick Controls
+- Forward: Move forward
+- Backward: Move Backward
+- Rotate Left: Turn Left (Not Yet Working)
+- Rotate Right: Turn Right (Not Yet Working)
+
 ### Operator
 - RBumper: Algie In
 - RTrigger: Algie Out

@@ -7,7 +7,8 @@
 - LBumper: Slow Mode
 
 ### Operator
-- RBumper: Algie In/Algie Out
+- RBumper: Algie In
+- RTrigger: Algie Out
 - LBumper: Arm Up
 - LTrigger: Arm Down
 - X Button: Coral Out

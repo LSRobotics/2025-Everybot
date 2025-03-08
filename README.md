@@ -6,7 +6,7 @@
 - Joystick X Axis: Drive Backward
 - LBumper: Slow Mode
 
-## Flight Stick Controls
+### Flight Stick Controls
 - Forward: Move forward
 - Backward: Move Backward
 - Rotate Left: Turn Left (Not Yet Working)

@@ -1,6 +1,6 @@
 ﻿# Everybot 2025
 
-## CONTROLS
+## CONTROLS (Arcade Drive)
 ### Driver
 - Joystick Y Axis: Drive Forward
 - Joystick X Axis: Drive Backward

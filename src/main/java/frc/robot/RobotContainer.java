@@ -27,21 +27,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import edu.wpi.first.wpilibj.Joystick;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick m_driverController =
       new CommandJoystick(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  // You can remove this if you wish to have a single driver, note that you
-  // may have to change the binding for left bumper.
   private final CommandXboxController m_operatorController = 
       new CommandXboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
@@ -56,9 +51,14 @@ public class RobotContainer {
   public final SimpleCoralAuto m_simpleCoralAuto = new SimpleCoralAuto(m_drive, m_roller, m_arm);
   public final DriveForwardAuto m_driveForwardAuto = new DriveForwardAuto(m_drive);
 
+  private final DifferentialDrive myDrive;
+  private final Joystick driveStick;
+  private final Joystick exampleJoystick;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Set up command bindings
+     myDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
+    driveStick = new Joystick(0);
     configureBindings();
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -78,6 +78,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    
+  }
 
     /** 
      * Set the default command for the drive subsystem to an instance of the
@@ -111,32 +113,13 @@ public class RobotContainer {
      * written in a more compact manner but are left verbose so the intent is clear.
      */
     m_operatorController.rightBumper().whileTrue(new AlgieInCommand(m_roller));
-    
-    // Here we use a trigger as a button when it is pushed past a certain threshold
     m_operatorController.rightTrigger(.2).whileTrue(new AlgieOutCommand(m_roller));
-
-    /**
-     * The arm will be passively held up or down after this is used,
-     * make sure not to run the arm too long or it may get upset!
-     */
     m_operatorController.leftBumper().whileTrue(new ArmUpCommand(m_arm));
     m_operatorController.leftTrigger(.2).whileTrue(new ArmDownCommand(m_arm));
-
-    /**
-     * Used to score coral, the stack command is for when there is already coral
-     * in L1 where you are trying to score. The numbers may need to be tuned, 
-     * make sure the rollers do not wear on the plastic basket.
-     */
     m_operatorController.x().whileTrue(new CoralOutCommand(m_roller));
     m_operatorController.y().whileTrue(new CoralStackCommand(m_roller));
-
-    /**
-     * POV is a direction on the D-Pad or directional arrow pad of the controller,
-     * the direction of this will be different depending on how your winch is wound
-     */
     m_operatorController.pov(0).whileTrue(new ClimberUpCommand(m_climber));
     m_operatorController.pov(180).whileTrue(new ClimberDownCommand(m_climber));
-  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -147,4 +130,5 @@ public class RobotContainer {
     // The selected command will be run in autonomous
     return m_chooser.getSelected();
   }
+}
 }

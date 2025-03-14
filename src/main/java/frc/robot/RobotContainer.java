@@ -57,8 +57,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-     myDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
+    myDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
     driveStick = new Joystick(0);
+    Trigger driveTrigger = new Trigger(() -> driveStick.getRawButton(1));
     configureBindings();
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -78,40 +79,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    
-  }
+    myDrive.arcadeDrive(-driveStick.getY(), -driveStick.getX());
 
-    /** 
-     * Set the default command for the drive subsystem to an instance of the
-     * DriveCommand with the values provided by the joystick axes on the driver
-     * controller. The Y axis of the controller is inverted so that pushing the
-     * stick away from you (a negative value) drives the robot forwards (a positive
-     * value). Similarly for the X axis where we need to flip the value so the
-     * joystick matches the WPILib convention of counter-clockwise positive
-     */
-    public void teleopPeriodic() {
-      // Arcade drive with a given forward and turn rate
-      myDrive.arcadeDrive(-driveStick.getY(), -driveStick.getX());
-  }
+    driveTrigger.whileTrue(new DriveCommand(m_drive, 
+    () -> -m_driverController.getLeftY() * DriveConstants.SLOW_MODE_MOVE,  
+    () -> -m_driverController.getRightX() * DriveConstants.SLOW_MODE_TURN,
+    () -> true));
 
-    /**
-     * Holding the left bumper (or whatever button you assign) will multiply the speed
-     * by a decimal to limit the max speed of the robot -> 
-     * 1 (100%) from the controller * .9 = 90% of the max speed when held (we also square it)
-     * 
-     * Slow mode is very valuable for line ups and the deep climb 
-     * 
-     * When switching to single driver mode switch to the B button
-     */
-    m_driverController.leftBumper().whileTrue(new DriveCommand(m_drive, 
-        () -> -m_driverController.getLeftY() * DriveConstants.SLOW_MODE_MOVE,  
-        () -> -m_driverController.getRightX() * DriveConstants.SLOW_MODE_TURN,
-        () -> true));
-
-    /**
-     * Here we declare all of our operator commands, these commands could have been
-     * written in a more compact manner but are left verbose so the intent is clear.
-     */
     m_operatorController.rightBumper().whileTrue(new AlgieInCommand(m_roller));
     m_operatorController.rightTrigger(.2).whileTrue(new AlgieOutCommand(m_roller));
     m_operatorController.leftBumper().whileTrue(new ArmUpCommand(m_arm));
@@ -120,6 +94,9 @@ public class RobotContainer {
     m_operatorController.y().whileTrue(new CoralStackCommand(m_roller));
     m_operatorController.pov(0).whileTrue(new ClimberUpCommand(m_climber));
     m_operatorController.pov(180).whileTrue(new ClimberDownCommand(m_climber));
+  }
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

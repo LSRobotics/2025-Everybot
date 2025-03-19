@@ -87,8 +87,8 @@ public class RobotContainer {
      * joystick matches the WPILib convention of counter-clockwise positive
      */
     m_drive.setDefaultCommand(new DriveCommand(m_drive,
-        () -> m_driverController.getLeftY(),
-        () -> m_driverController.getRightX(),
+        () -> -m_driverController.getLeftY(),
+        () -> -m_driverController.getRightX(),
         () -> true));
 
     /**
@@ -101,7 +101,7 @@ public class RobotContainer {
      * When switching to single driver mode switch to the B button
      */
     m_driverController.leftBumper().whileTrue(new DriveCommand(m_drive, 
-        () -> m_driverController.getLeftY() * DriveConstants.SLOW_MODE_MOVE,  
+        () -> -m_driverController.getLeftY() * DriveConstants.SLOW_MODE_MOVE,  
         () -> -m_driverController.getRightX() * DriveConstants.SLOW_MODE_TURN,
         () -> true));
 

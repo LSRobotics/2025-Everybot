@@ -36,6 +36,8 @@ public class ArmSubsystem extends SubsystemBase {
     armConfig.smartCurrentLimit(ArmConstants.ARM_MOTOR_CURRENT_LIMIT);
     armConfig.idleMode(IdleMode.kBrake);
     armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    armMotor.set(ArmConstants.ARM_HOLD_UP);
     }
 
     @Override

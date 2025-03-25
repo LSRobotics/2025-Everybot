@@ -10,6 +10,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -25,7 +27,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final Encoder leftEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
 
 
-  private final DifferentialDrive drive;
+  public final DifferentialDrive drive;
 
   /**
    * The subsystem used to drive the robot.
@@ -56,6 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
     SparkMaxConfig config = new SparkMaxConfig();
     config.voltageCompensation(DriveConstants.DRIVE_MOTOR_VOLTAGE_COMP);
     config.smartCurrentLimit(DriveConstants.DRIVE_MOTOR_CURRENT_LIMIT);
+    config.idleMode(IdleMode.kBrake);
 
     // Set configuration to follow leader and then apply it to corresponding
     // follower. Resetting in case a new controller is swapped

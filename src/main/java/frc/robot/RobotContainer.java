@@ -110,6 +110,9 @@ public class RobotContainer {
         () -> -m_driverController.getRightX() * DriveConstants.SLOW_MODE_TURN,
         () -> true));
 
+    m_driverController.pov(0).whileTrue(new DriveCommand(m_drive, ()->-DriveConstants.D_PAD_SPEED,  ()->0.0, () -> false));
+    m_driverController.pov(180).whileTrue(new DriveCommand(m_drive, ()->DriveConstants.D_PAD_SPEED,  ()->0.0, () -> false));
+
     /**
      * Here we declare all of our operator commands, these commands could have been
      * written in a more compact manner but are left verbose so the intent is clear.

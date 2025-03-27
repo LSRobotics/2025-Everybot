@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -7,17 +9,24 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberSubsystem extends SubsystemBase {
 
     private final SparkMax climbMotor;
-
+    private Spark m_leds = new Spark(0);
+    private DigitalInput limitSwitch = new DigitalInput(4);
+    public BooleanSupplier isCage;
     /**
      * This subsytem that controls the climber.
      */
     public ClimberSubsystem () {
+        isCage = () -> false;
+
 
     // Set up the climb motor as a brushless motor
     climbMotor = new SparkMax(ClimberConstants.CLIMBER_MOTOR_ID, MotorType.kBrushless);
@@ -40,6 +49,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("Limit",!limitSwitch.get());
+        if (limitSwitch.get()==false){isCage = () -> true;}
+        if (isCage.getAsBoolean()==true){m_leds.set(0.75);}
+        else{
+            m_leds.set(0.69);
+        }
     }
 
     /**

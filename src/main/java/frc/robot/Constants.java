@@ -27,6 +27,8 @@ public final class Constants {
     public static final double DRIVE_MOTOR_VOLTAGE_COMP = 12;
     public static final double SLOW_MODE_MOVE = 0.5;
     public static final double SLOW_MODE_TURN = 0.6;
+
+    public static final double D_PAD_SPEED = 0.2;
   }
 
   public static final class RollerConstants {
